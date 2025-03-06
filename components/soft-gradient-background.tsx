@@ -14,6 +14,7 @@ export default function SoftGradientBackground() {
     if (!ctx) return
 
     const resizeCanvas = () => {
+      if (!canvas) return
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
     }
@@ -27,8 +28,9 @@ export default function SoftGradientBackground() {
       vy: number
 
       constructor() {
-        this.x = Math.random() * canvas.width
-        this.y = Math.random() * canvas.height
+        // Add null check for canvas width/height
+        this.x = Math.random() * (canvas?.width || window.innerWidth)
+        this.y = Math.random() * (canvas?.height || window.innerHeight)
         this.radius = Math.random() * 300 + 100
 
         const colors = ["#2979ff", "#00bfff", "#4895ef", "#007ea7", "#64b5f6"]
@@ -42,11 +44,15 @@ export default function SoftGradientBackground() {
         this.x += this.vx
         this.y += this.vy
 
+        // Add null checks for canvas dimensions
+        const width = canvas?.width || window.innerWidth
+        const height = canvas?.height || window.innerHeight
         const padding = this.radius
+        
         if (this.x < -padding) this.vx = Math.abs(this.vx)
-        if (this.x > canvas.width + padding) this.vx = -Math.abs(this.vx)
+        if (this.x > width + padding) this.vx = -Math.abs(this.vx)
         if (this.y < -padding) this.vy = Math.abs(this.vy)
-        if (this.y > canvas.height + padding) this.vy = -Math.abs(this.vy)
+        if (this.y > height + padding) this.vy = -Math.abs(this.vy)
       }
 
       draw(ctx: CanvasRenderingContext2D) {
@@ -71,6 +77,8 @@ export default function SoftGradientBackground() {
     }
 
     const animate = () => {
+      if (!canvas || !ctx) return
+      
       ctx.fillStyle = "hsl(215, 100%, 10%)"
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
