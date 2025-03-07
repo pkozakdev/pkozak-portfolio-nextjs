@@ -46,12 +46,25 @@
   }
 }
 
-/* Mobile menu positioning fix */
+/* Mobile menu positioning fix - simplified */
 body.menu-open {
   overflow: hidden;
-  /* These styles prevent the page from jumping when the scrollbar disappears */
-  padding-right: var(--scrollbar-width, 0px); /* Prevents layout shift */
-  touch-action: none; /* Prevents touch events from scrolling the page */
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Mobile menu transition fixes */
+.mobile-menu {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+  z-index: 40;
+}
+
+.mobile-menu.visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .mobile-menu-backdrop {
@@ -60,7 +73,28 @@ body.menu-open {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 40;
+  z-index: 1;
+  opacity: 0;
+  backdrop-filter: blur(0px);
+  transition: opacity 0.3s ease-out, backdrop-filter 0.3s ease-out;
+}
+
+.mobile-menu.visible .mobile-menu-backdrop {
+  opacity: 1;
+  backdrop-filter: blur(8px);
+}
+
+.mobile-menu-item {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  z-index: 2;
+  position: relative;
+}
+
+.mobile-menu.visible .mobile-menu-item {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .network-canvas {
@@ -160,6 +194,17 @@ body.menu-open {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
   }
 }
 

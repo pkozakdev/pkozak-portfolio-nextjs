@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { Code, Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Space_Mono } from "next/font/google"
+import MobileMenu from "./mobile-menu"
 
 const spaceMono = Space_Mono({ weight: "700", subsets: ["latin"] })
 
@@ -35,51 +36,53 @@ export default function Navbar() {
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      // Get current scroll position
+    const openMenu = () => {
+      // Calculate position before any DOM changes
       const scrollY = window.scrollY;
       
-      // Calculate scrollbar width to prevent layout shift
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
-      
-      // Store current scroll position as data attribute
-      document.body.dataset.scrollPosition = scrollY.toString();
-      
-      // Add menu-open class to body
-      document.body.classList.add('menu-open');
-      
-      // Apply fixed position to body to prevent scrolling while keeping scroll position
+      // Apply positioning to body without causing reflow/layout shift
+      document.body.style.top = `-${scrollY}px`;
       document.body.style.position = 'fixed';
       document.body.style.width = '100%';
-      document.body.style.top = `-${scrollY}px`;
-    } else if (document.body.classList.contains('menu-open')) {
-      // Only restore if we were in menu-open state
-      const scrollY = parseInt(document.body.dataset.scrollPosition || '0');
+      document.body.style.overflow = 'hidden';
       
-      // Remove fixed positioning
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.top = '';
-      document.body.classList.remove('menu-open');
-      document.documentElement.style.removeProperty('--scrollbar-width');
-      
-      // Restore scroll position
-      window.scrollTo(0, scrollY);
-    }
+      // Store the scroll position for later restoration
+      document.body.dataset.scrollPosition = scrollY.toString();
+    };
     
-    return () => {
-      // Clean up in case component unmounts while menu is open
-      if (document.body.classList.contains('menu-open')) {
+    const closeMenu = () => {
+      if (document.body.style.position === 'fixed') {
+        // Get the saved scroll position
         const scrollY = parseInt(document.body.dataset.scrollPosition || '0');
+        
+        // Reset body styles
         document.body.style.position = '';
         document.body.style.width = '';
         document.body.style.top = '';
-        document.body.classList.remove('menu-open');
-        document.documentElement.style.removeProperty('--scrollbar-width');
-        window.scrollTo(0, scrollY);
+        document.body.style.overflow = '';
+        
+        // Restore scroll position in next tick to prevent layout shifts
+        window.requestAnimationFrame(() => {
+          window.scrollTo(0, scrollY);
+        });
+        
+        delete document.body.dataset.scrollPosition;
       }
+    };
+    
+    // Toggle menu state
+    if (isMobileMenuOpen) {
+      openMenu();
+    } else {
+      closeMenu();
     }
+    
+    return () => {
+      // Clean up in case component unmounts with menu open
+      if (document.body.style.position === 'fixed') {
+        closeMenu();
+      }
+    };
   }, [isMobileMenuOpen])
 
   // Close menu on route change
@@ -122,10 +125,10 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             className={cn(
-              "md:hidden z-50 p-2 rounded-lg transition-colors",
+              "md:hidden z-[100] p-2 rounded-lg transition-colors",
               isMobileMenuOpen 
-                ? "text-foreground hover:bg-primary/10" 
-                : "text-foreground hover:bg-foreground/10"
+                ? "text-foreground" 
+                : "text-foreground"
             )}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
@@ -138,49 +141,12 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Navigation Menu - with animations */}
-        <div
-          className={cn(
-            "fixed inset-0 z-40 md:hidden transition-opacity duration-300",
-            isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-          )}
-        >
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-background/95 backdrop-blur-sm transition-opacity duration-300"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-          
-          {/* Menu Content */}
-          <div className="fixed inset-0 flex flex-col justify-center items-center">
-            <nav className="flex flex-col items-center gap-8">
-              {navItems.map((item, index) => (
-                <Link
-                  key={item.path}
-                  href={item.path}
-                  className={cn(
-                    "relative text-2xl font-medium tracking-wide transition-all duration-300 px-4 py-2",
-                    pathname === item.path 
-                      ? "text-primary" 
-                      : "text-foreground/70 hover:text-primary",
-                    isMobileMenuOpen 
-                      ? "transform translate-y-0 opacity-100" 
-                      : "transform -translate-y-8 opacity-0"
-                  )}
-                  style={{
-                    transitionDelay: isMobileMenuOpen ? `${150 + index * 75}ms` : '0ms'
-                  }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                  {pathname === item.path && (
-                    <span className="absolute inset-0 bg-primary/10 rounded-lg -z-10" />
-                  )}
-                </Link>
-              ))}
-            </nav>
-          </div>
-        </div>
+        {/* Using the Portal-based Mobile Menu component */}
+        <MobileMenu 
+          isOpen={isMobileMenuOpen}
+          onClose={() => setIsMobileMenuOpen(false)}
+          navItems={navItems}
+        />
       </div>
     </header>
   )
