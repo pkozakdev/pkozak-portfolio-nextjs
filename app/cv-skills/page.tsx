@@ -60,25 +60,38 @@ export default function CVSkills() {
               <div className="space-y-6">
                 {[
                   {
-                    role: "Senior Frontend Developer",
-                    company: "Tech Innovations Inc.",
-                    period: "2021 - Present",
-                    description:
-                      "Leading frontend development for enterprise applications, implementing modern React architectures, and mentoring junior developers.",
+                    period: "2025 - Present",
+                    role: "Software Engineer",
+                    company: "Crosslake Technologies",
+                    location: "Charlotte, North Carolina, USA",
+                    type: "Contract, Remote",
+                    descriptions: [
+                      "Development of a fully serverless IoT platform based on .NET 9, AWS, Blazor, and MAUI"
+                    ]
                   },
                   {
-                    role: "Full Stack Developer",
-                    company: "Digital Solutions Ltd.",
-                    period: "2018 - 2021",
-                    description:
-                      "Developed and maintained full-stack applications using React, Node.js, and PostgreSQL, focusing on performance optimization and scalability.",
+                    period: "2021 - 2024",
+                    role: "Software Developer",
+                    company: "3t Digital (formerly Neutron VR, 3t Transform)",
+                    location: "Newcastle-upon-Tyne, UK",
+                    type: "Contract, Remote",
+                    descriptions: [
+                      "Full-stack development of cloud-based Workforce Management and Workforce Training services using JS/TS, Stencil.js, Node.js, Serverless, AWS",
+                      "Full-stack development and maintenance of existing .NET Core applications and microservices",
+                      "Participation in the software design process",
+                      "Trained a new team by conducting knowledge transfer sessions upon moving to a new project",
+                      "Participated in technical design authority meetings"
+                    ]
                   },
                   {
-                    role: "Web Developer",
-                    company: "Creative Web Agency",
-                    period: "2016 - 2018",
-                    description:
-                      "Created responsive websites and web applications for various clients, utilizing modern frontend technologies and content management systems.",
+                    period: "2019 - 2021",
+                    role: "Junior Software Developer",
+                    company: "3t Digital (formerly Neutron VR, 3t Transform)",
+                    location: "Newcastle-upon-Tyne, UK",
+                    type: "Full-time, Hybrid",
+                    descriptions: [
+                      "Worked on existing web applications for various clients, utilizing mainly .NET Framework, .NET Core, JQuery, Bootstrap, LINQ, and Microsoft SQL Server"
+                    ]
                   },
                 ].map((job, index) => (
                   <div key={index} className="relative pl-6 border-l-2 border-muted">
@@ -86,9 +99,23 @@ export default function CVSkills() {
                     <h3 className="text-lg font-semibold">{job.role}</h3>
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-foreground/70">{job.company}</span>
-                      <span className="text-primary">{job.period}</span>
+                      <span className="text-foreground/70">{job.period}</span>
                     </div>
-                    <p className="text-foreground/80">{job.description}</p>
+                    <div className="flex justify-between text-sm mb-1">
+                    <span className="text-primary">{job.location}</span>
+                    <span className="text-primary">{job.type}</span>
+
+                      </div>
+                    {job.descriptions.length === 1 ? (
+                      
+                      <p className="text-foreground/80">{job.descriptions[0]}</p>
+                    ) : (
+                      <ul className="list-disc pl-4 mt-2 space-y-1 text-foreground/80">
+                        {job.descriptions.map((desc, i) => (
+                          <li key={i}>{desc}</li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 ))}
               </div>
@@ -143,7 +170,7 @@ export default function CVSkills() {
                     <h3 className="text-lg font-semibold">{edu.degree}</h3>
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-foreground/70">{edu.institution}</span>
-                      <span className="text-primary">{edu.period}</span>
+                      <span className="text-foreground/70">{edu.period}</span>
                     </div>
                     <p className="text-foreground/80">{edu.description}</p>
                   </div>

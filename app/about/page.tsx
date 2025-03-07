@@ -34,7 +34,7 @@ export default function About() {
               I specialize in .NET development, with expertise in enterprise systems designed to help manage your workforce and assets.
               I'm constantly learning and adapting to new technologies, and I do it because I like it. 
               I don't limit myself to only the technologies that I'm well familiar with. 
-              I believe if choosing the right tool for the job, and I'm happy to adapt to the requirements.
+              I believe in choosing the right tool for the job, and I'm happy to adapt to the requirements.
             </p>
             <p className="text-foreground/80">
               When I'm not coding, you can find me playing guitar, riding longboards, or
