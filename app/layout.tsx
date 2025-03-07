@@ -8,18 +8,18 @@ import SoftGradientBackground from "@/components/soft-gradient-background"
 // Define fonts with proper variable names
 const inter = Inter({ 
   subsets: ["latin"],
-  variable: '--font-inter' 
+  variable: "--font-inter"
 })
 
 const montserrat = Montserrat({ 
   subsets: ["latin"],
-  variable: '--font-montserrat'
+  variable: "--font-montserrat"
 })
 
 const spaceMono = Space_Mono({ 
   weight: "700", 
   subsets: ["latin"],
-  variable: '--font-space-mono'
+  variable: "--font-space-mono"
 })
 
 export const metadata: Metadata = {

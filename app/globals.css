@@ -27,11 +27,22 @@
 
     --ring: 210 100% 50%;
   }
+
+  /* Hide scrollbars but keep functionality */
+  * {
+    -ms-overflow-style: none;  /* Internet Explorer and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+
+  *::-webkit-scrollbar {
+    display: none;            /* Chrome, Safari and Opera */
+  }
 }
 
 @layer base {
   body {
     @apply bg-background text-foreground;
+    overflow-y: scroll;      /* Ensure page is always scrollable */
   }
 }
 
@@ -113,6 +124,17 @@
 }
 .staggered-fade-in > *:nth-child(6) {
   animation-delay: 0.6s;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes fadeIn {

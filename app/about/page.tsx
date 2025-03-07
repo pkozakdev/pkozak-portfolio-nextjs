@@ -11,7 +11,7 @@ export default function About() {
           <div className="md:col-span-1">
             <div className="relative w-full aspect-square rounded-lg overflow-hidden">
               <Image
-                src="/placeholder.svg?height=400&width=400"
+                src="/headshot2.jpg?height=400&width=400"
                 alt="Developer portrait"
                 fill
                 className="object-cover"
@@ -21,22 +21,24 @@ export default function About() {
 
           <div className="md:col-span-2">
             <h2 className="text-2xl font-semibold mb-4">
-              Hello, I'm <span className="text-primary">John Doe</span>
+              Hello, I'm <span className="text-primary">Piotr Kozak</span>
             </h2>
             <p className="text-foreground/80 mb-4">
               I'm a passionate full-stack developer with over 5 years of experience building web applications and
-              digital solutions. My journey in software development started with a curiosity about how things work on
+              digital solutions. 
+              My journey in software development started with a curiosity about how things work on
               the web, and it has evolved into a career focused on creating elegant, efficient, and user-friendly
               applications.
             </p>
             <p className="text-foreground/80 mb-4">
-              I specialize in JavaScript/TypeScript ecosystems, with expertise in React, Next.js, Node.js, and various
-              database technologies. I'm constantly learning and adapting to new technologies to ensure I can provide
-              the best solutions for modern web development challenges.
+              I specialize in .NET development, with expertise in enterprise systems designed to help manage your workforce and assets.
+              I'm constantly learning and adapting to new technologies, and I do it because I like it. 
+              I don't limit myself to only the technologies that I'm well familiar with. 
+              I believe if choosing the right tool for the job, and I'm happy to adapt to the requirements.
             </p>
             <p className="text-foreground/80">
-              When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or
-              enjoying outdoor activities to maintain a healthy work-life balance.
+              When I'm not coding, you can find me playing guitar, riding longboards, or
+              hiking in the mountains.
             </p>
           </div>
         </div>
@@ -88,33 +90,56 @@ export default function About() {
           <div className="space-y-8">
             {[
               {
-                period: "2021 - Present",
-                role: "Senior Frontend Developer",
-                company: "Tech Innovations Inc.",
-                description:
-                  "Leading frontend development for enterprise applications, implementing modern React architectures, and mentoring junior developers.",
+                period: "2025 - Present",
+                role: "Software Engineer",
+                company: "Crosslake Technologies",
+                location: "Charlotte, North Carolina, USA",
+                type: "Contract, Remote",
+                descriptions: [
+                  "Development of a fully serverless IoT platform based on .NET 9, AWS, Blazor, and MAUI"
+                ]
               },
               {
-                period: "2018 - 2021",
-                role: "Full Stack Developer",
-                company: "Digital Solutions Ltd.",
-                description:
-                  "Developed and maintained full-stack applications using React, Node.js, and PostgreSQL, focusing on performance optimization and scalability.",
+                period: "2021 - 2024",
+                role: "Software Developer",
+                company: "3t Digital (formerly Neutron VR, 3t Transform)",
+                location: "Newcastle-upon-Tyne, UK",
+                type: "Contract, Remote",
+                descriptions: [
+                  "Full-stack development of cloud-based Workforce Management and Workforce Training services using JS/TS, Stencil.js, Node.js, Serverless, AWS",
+                  "Full-stack development and maintenance of existing .NET Core applications and microservices",
+                  "Participation in the software design process",
+                  "Trained a new team by conducting knowledge transfer sessions upon moving to a new project",
+                  "Participated in technical design authority meetings"
+                ]
               },
               {
-                period: "2016 - 2018",
-                role: "Web Developer",
-                company: "Creative Web Agency",
-                description:
-                  "Created responsive websites and web applications for various clients, utilizing modern frontend technologies and content management systems.",
+                period: "2019 - 2021",
+                role: "Junior Software Developer",
+                company: "3t Digital (formerly Neutron VR, 3t Transform)",
+                location: "Newcastle-upon-Tyne, UK",
+                type: "Full-time Employment, Office at first, then Hybrid",
+                descriptions: [
+                  "Worked on existing web applications for various clients, utilizing mainly .NET Framework, .NET Core, JQuery, Bootstrap, LINQ, and Microsoft SQL Server"
+                ]
               },
             ].map((experience, index) => (
               <div key={index} className="relative pl-8 border-l-2 border-muted">
                 <div className="absolute w-4 h-4 bg-primary rounded-full -left-[9px] top-1"></div>
                 <div className="mb-1 text-sm text-primary font-medium">{experience.period}</div>
                 <h3 className="text-lg font-semibold">{experience.role}</h3>
-                <div className="text-foreground/70 mb-2">{experience.company}</div>
-                <p className="text-foreground/80">{experience.description}</p>
+                <div className="text-foreground/70 mb-0">{experience.company}</div>
+                <div className="text-foreground/50 font-medium mb-0">{experience.location}</div>
+                <div className="text-foreground/40 font-small mb-0">{experience.type}</div>
+                {experience.descriptions.length === 1 ? (
+                  <p className="text-foreground/80">{experience.descriptions[0]}</p>
+                ) : (
+                  <ul className="list-disc pl-4 mt-2 space-y-1 text-foreground/80">
+                    {experience.descriptions.map((desc, i) => (
+                      <li key={i}>{desc}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             ))}
           </div>

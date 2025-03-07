@@ -15,18 +15,24 @@ export default function CVSkills() {
   }, [])
 
   const skills = [
-    { name: "JavaScript", level: 90 },
-    { name: "TypeScript", level: 85 },
-    { name: "React", level: 88 },
-    { name: "Next.js", level: 82 },
-    { name: "Node.js", level: 75 },
+    { name: "C#", level: 90 },
+    { name: ".NET 8/9", level: 85 },
+    { name: "MS SQL Server", level: 88 },
+    { name: "PostgreSQL", level: 88 },
+    { name: "Entity Framework", level: 88 },
+    { name: "DynamoDB", level: 70 },
+    { name: "AWS", level: 70 },
+    { name: "Serverless", level: 70 },
+    { name: "Node.js", level: 70 },
+    { name: "Blazor", level: 60 },
+    { name: "Angular", level: 50 },
+    { name: "NextJS", level: 40 },
+    { name: "MAUI", level: 40 },
+    { name: "REST API", level: 90 },
     { name: "HTML/CSS", level: 95 },
-    { name: "Tailwind CSS", level: 85 },
-    { name: "SQL", level: 70 },
-    { name: "MongoDB", level: 75 },
-    { name: "Git", level: 80 },
-    { name: "Docker", level: 65 },
-    { name: "AWS", level: 60 },
+    { name: "CQRS/MediatR", level: 90 },
+    { name: "Microservices", level: 80 },
+    { name: "Git", level: 90 },
   ]
 
   return (
@@ -97,18 +103,39 @@ export default function CVSkills() {
               <div className="space-y-6">
                 {[
                   {
-                    degree: "MSc in Computer Science",
-                    institution: "University of Technology",
-                    period: "2014 - 2016",
+                    degree: "IT Project Management",
+                    institution: "Poznan University of Economics and Business",
+                    period: "2022 - 2023",
                     description:
-                      "Specialized in Software Engineering with focus on web technologies and distributed systems.",
+                      "Postgraduate studies focused on project management methodologies, tools, and best practices. Obtained PRINCE2 Foundation and AgilePM Foundation as part of the course.",
                   },
                   {
-                    degree: "BSc in Computer Science",
-                    institution: "State University",
+                    degree: "MSc Computing and IT with Advance Practice",
+                    institution: "Northumbria University",
                     period: "2010 - 2014",
                     description:
-                      "Fundamental computer science education with emphasis on programming, algorithms, and data structures.",
+                      "Master's degree in Computing and IT with a focus on software development, databases, and web technologies.",
+                  },
+                  {
+                    degree: "Computer Science & Engineering",
+                    institution: "Politecnico di Milano",
+                    period: "2018-2019",
+                    description:
+                      "Erasmus+ exchange program focused on software engineering, recommender systems, middleware for distributed systems, game development, mobile development, game theory, and data science.",
+                  },
+                  {
+                    degree: "BSc Biomedical Science",
+                    institution: "University of Sunderland",
+                    period: "2015-2017",
+                    description:
+                      "Bachelor's degree in Biomedical Science with a focus on human anatomy, physiology, biochemistry, and microbiology.",
+                  },
+                  {
+                    degree: "BSc Medical Bioscience",
+                    institution: "London Metropolitan University",
+                    period: "2014-2015",
+                    description:
+                      "Finished first year and transferred to University of Sunderland to complete the degree on an IBMS accredited program.",
                   },
                 ].map((edu, index) => (
                   <div key={index} className="relative pl-6 border-l-2 border-muted">
@@ -133,20 +160,21 @@ export default function CVSkills() {
               <div className="space-y-4">
                 {[
                   {
-                    name: "AWS Certified Developer",
-                    issuer: "Amazon Web Services",
-                    year: "2022",
+                    name: "AgilePM Foundation",
+                    issuer: "APMG International",
+                    year: "2023",
                   },
                   {
-                    name: "Professional Scrum Master I",
-                    issuer: "Scrum.org",
-                    year: "2021",
+                    name: "Swift Level 1",
+                    issuer: "Cambridge Certification Authority",
+                    year: "2019",
                   },
                   {
-                    name: "MongoDB Certified Developer",
-                    issuer: "MongoDB University",
-                    year: "2020",
+                    name: "TOEFL iBT",
+                    issuer: "ETS EMEA",
+                    year: "2014",
                   },
+
                 ].map((cert, index) => (
                   <div key={index} className="bg-card p-4 rounded-lg">
                     <h3 className="font-medium">{cert.name}</h3>
@@ -191,8 +219,7 @@ export default function CVSkills() {
               <div className="space-y-5">
                 {[
                   { name: "English", level: 95 },
-                  { name: "Spanish", level: 75 },
-                  { name: "French", level: 40 },
+                  { name: "Polish", level: 100 },
                 ].map((language, index) => (
                   <div key={index} className="space-y-2">
                     <div className="flex justify-between">
@@ -219,7 +246,7 @@ export default function CVSkills() {
               <div className="grid grid-cols-2 gap-4">
                 {[
                   "Problem Solving",
-                  "Team Leadership",
+                  "Teamwork",
                   "Communication",
                   "Time Management",
                   "Adaptability",
