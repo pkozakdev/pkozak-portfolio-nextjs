@@ -26,6 +26,9 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
     }
+    
+    // Check initial scroll position
+    handleScroll()
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -33,12 +36,49 @@ export default function Navbar() {
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = ""
+      // Get current scroll position
+      const scrollY = window.scrollY;
+      
+      // Calculate scrollbar width to prevent layout shift
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+      
+      // Store current scroll position as data attribute
+      document.body.dataset.scrollPosition = scrollY.toString();
+      
+      // Add menu-open class to body
+      document.body.classList.add('menu-open');
+      
+      // Apply fixed position to body to prevent scrolling while keeping scroll position
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${scrollY}px`;
+    } else if (document.body.classList.contains('menu-open')) {
+      // Only restore if we were in menu-open state
+      const scrollY = parseInt(document.body.dataset.scrollPosition || '0');
+      
+      // Remove fixed positioning
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      document.body.classList.remove('menu-open');
+      document.documentElement.style.removeProperty('--scrollbar-width');
+      
+      // Restore scroll position
+      window.scrollTo(0, scrollY);
     }
+    
     return () => {
-      document.body.style.overflow = ""
+      // Clean up in case component unmounts while menu is open
+      if (document.body.classList.contains('menu-open')) {
+        const scrollY = parseInt(document.body.dataset.scrollPosition || '0');
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.top = '';
+        document.body.classList.remove('menu-open');
+        document.documentElement.style.removeProperty('--scrollbar-width');
+        window.scrollTo(0, scrollY);
+      }
     }
   }, [isMobileMenuOpen])
 
@@ -98,29 +138,21 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Navigation Menu */}
+        {/* Mobile Navigation Menu - with animations */}
         <div
           className={cn(
-            "fixed inset-0 z-40 md:hidden flex",
-            isMobileMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+            "fixed inset-0 z-40 md:hidden transition-opacity duration-300",
+            isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           )}
         >
           {/* Backdrop */}
           <div 
-            className={cn(
-              "absolute inset-0 bg-background/95 backdrop-blur-sm transition-opacity duration-300",
-              isMobileMenuOpen ? "opacity-100" : "opacity-0"
-            )}
+            className="fixed inset-0 bg-background/95 backdrop-blur-sm transition-opacity duration-300"
             onClick={() => setIsMobileMenuOpen(false)}
           />
           
           {/* Menu Content */}
-          <div
-            className={cn(
-              "relative w-full flex flex-col justify-center items-center transition-all duration-300 transform",
-              isMobileMenuOpen ? "opacity-100 scale-100" : "opacity-0 scale-95"
-            )}
-          >
+          <div className="fixed inset-0 flex flex-col justify-center items-center">
             <nav className="flex flex-col items-center gap-8">
               {navItems.map((item, index) => (
                 <Link
@@ -131,10 +163,12 @@ export default function Navbar() {
                     pathname === item.path 
                       ? "text-primary" 
                       : "text-foreground/70 hover:text-primary",
-                    isMobileMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
+                    isMobileMenuOpen 
+                      ? "transform translate-y-0 opacity-100" 
+                      : "transform -translate-y-8 opacity-0"
                   )}
                   style={{
-                    transitionDelay: isMobileMenuOpen ? `${150 + index * 50}ms` : '0ms'
+                    transitionDelay: isMobileMenuOpen ? `${150 + index * 75}ms` : '0ms'
                   }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >

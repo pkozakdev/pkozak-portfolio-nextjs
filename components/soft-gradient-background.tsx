@@ -13,10 +13,20 @@ export default function SoftGradientBackground() {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    const resizeCanvas = () => {
+    // Set canvas size once and ensure it stays fixed
+    const setCanvasSize = () => {
       if (!canvas) return
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+
+      // Set dimensions with a slight buffer to prevent any visible edges
+      canvas.width = window.innerWidth * 1.1
+      canvas.height = window.innerHeight * 1.1
+
+      // Apply CSS to ensure canvas stays fixed in position
+      canvas.style.position = 'fixed'
+      canvas.style.top = '-5%'
+      canvas.style.left = '-5%'
+      canvas.style.width = '110%'
+      canvas.style.height = '110%'
     }
 
     class GradientBlob {
@@ -90,14 +100,15 @@ export default function SoftGradientBackground() {
       animationFrameRef.current = requestAnimationFrame(animate)
     }
 
-    resizeCanvas()
+    setCanvasSize()
     createBlobs()
     animate()
 
-    window.addEventListener("resize", resizeCanvas)
+    // Only resize when window actually changes dimensions
+    window.addEventListener("resize", setCanvasSize)
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas)
+      window.removeEventListener("resize", setCanvasSize)
       cancelAnimationFrame(animationFrameRef.current)
     }
   }, [])
